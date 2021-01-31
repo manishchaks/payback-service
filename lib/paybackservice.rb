@@ -15,9 +15,21 @@ class PayBackService
     @merchants << merchant
   end
 
-  def transact (user,merchant,amount)
-    raise UserUnregisteredException unless @users.include?(user)
-    raise MerchantUnregisteredException unless @merchants.include?(merchant)
+  def transact (user, merchant, amount)
+    if user.can_avail_credit?(amount)
+      user.avail_credit(amount)
+      merchant.add_discount(amount * merchant.discount_percentage / 100)
+      return true
+    end
+    false
+  end
 
+  def users_at_credit_limit
+    users_at_credit_limit_array = []
+    @users.each do |user|
+      puts user.at_credit_limit?
+      users_at_credit_limit_array << user if user.at_credit_limit?
+    end
+    users_at_credit_limit_array
   end
 end

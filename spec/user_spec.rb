@@ -36,10 +36,12 @@ describe User do
       expect(@user.at_credit_limit?).to eq(false)
       expect(@user.can_avail_credit?(300)).to eq(true)
       @user.avail_credit(300)
+      expect(@user.dues).to eql(300)
       expect(@user.available_credit).to eq(200)
       expect(@user.can_avail_credit?(300)).to eq(false)
       expect(@user.can_avail_credit?(200)).to eq(true)
       @user.avail_credit(200)
+      expect(@user.dues).to eql(500)
       expect(@user.available_credit).to eq(0)
       expect(@user.at_credit_limit?).to eq(true)
     end

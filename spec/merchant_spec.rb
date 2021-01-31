@@ -1,7 +1,7 @@
 require 'merchant.rb'
 describe Merchant do
   before :each do
-    @merchant = Merchant.new('m1', 1.5)
+    @merchant = Merchant.new('m1','m1@merchant.com', 1.5)
   end
   context 'Initialization' do
     it 'is possible to create a valid merchant object' do
