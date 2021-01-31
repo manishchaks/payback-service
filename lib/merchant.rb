@@ -1,5 +1,6 @@
 class Merchant
-  attr_accessor :name, :discount_percentage
+  attr_accessor :discount_percentage
+  attr_reader :name
 
   def initialize(name, discount_percentage)
     @name = name
