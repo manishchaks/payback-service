@@ -50,7 +50,14 @@ describe PayBackService do
       expect(@paybackservice.transact(@user3, @merchant3, 300)).to eql(true)
       # > report users-at-credit-limit
       expect(@paybackservice.users_at_credit_limit).to eql([@user1, @user3])
-      expect(@merchant3.total_discount_received).to eql(6.25)
+      expect(@merchant3.total_discount_received).to eql(7.5)
+      # > payback user3 400
+      @user3.payback(400)
+      expect(@user3.dues).to eql(100)
+      # > report total-dues
+      expect(@user1.dues).to eql(300)
+
+
     end
   end
 end

@@ -27,8 +27,12 @@ class User
   def avail_credit amount
     @available_credit = @available_credit - amount if can_avail_credit?(amount)
   end
-  
+
   def dues
     @credit_limit - @available_credit
+  end
+
+  def payback(amount)
+    @available_credit = @available_credit + amount
   end
 end
