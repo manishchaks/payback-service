@@ -20,4 +20,15 @@ describe User do
       expect(@user).to_not respond_to(:email=)
     end
   end
+  context 'Validation' do
+    it 'should raise error if user created with negative credit limit' do
+      expect{User.new('user1', 'user@gmail.com', -1)}.to raise_exception(InvalidCreditLimitException,'Credit Limit cannot be less than or equal to zero')
+    end
+    it 'should raise error if user created with empty name' do
+      expect{User.new('', 'user@gmail.com', 100)}.to raise_exception(InvalidNameException,'Length of username should be at least 1 character')
+    end
+    it 'should raise error is user created with invalid email address' do
+      expect{User.new('manish', 'invalid_email', 100)}.to raise_exception(InvalidEmailException,'Please supply a valid email address with a @ character')
+    end
+  end
 end
