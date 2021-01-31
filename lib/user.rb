@@ -13,9 +13,18 @@ class User
     @name = name
     @email = email
     @credit_limit = credit_limit
+    @available_credit = @credit_limit
   end
 
   def at_credit_limit?
     @available_credit <= 0
+  end
+
+  def can_avail_credit? amount
+    @available_credit >= amount
+  end
+
+  def avail_credit amount
+    @available_credit = @available_credit - amount if can_avail_credit?(amount)
   end
 end
