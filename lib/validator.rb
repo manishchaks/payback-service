@@ -1,6 +1,8 @@
-require 'invalid_credit_limit_exception'
-require 'invalid_name_exception'
-require 'invalid_email_exception'
+require 'exceptions/invalid_credit_limit_exception'
+require 'exceptions/invalid_name_exception'
+require 'exceptions/invalid_email_exception'
+require 'exceptions/invalid_discount_exception'
+
 class Validator
   def self.validate_credit_limit(cred_limit)
     if cred_limit <= 0
@@ -8,9 +10,15 @@ class Validator
     end
   end
 
-  def self.validate_user_name(name)
+  def self.validate_discount(discount)
+    if discount <= 0
+      raise InvalidDiscountException.new('Discount must be greater than or equal to zero')
+    end
+  end
+
+  def self.validate_name(name)
     if name.length < 1
-      raise InvalidNameException.new('Length of username should be at least 1 character')
+      raise InvalidNameException.new('Name should be at least 1 character long')
     end
   end
 

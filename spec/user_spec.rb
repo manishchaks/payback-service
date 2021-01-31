@@ -25,7 +25,7 @@ describe User do
       expect{User.new('user1', 'user@gmail.com', -1)}.to raise_exception(InvalidCreditLimitException,'Credit Limit cannot be less than or equal to zero')
     end
     it 'should raise error if user created with empty name' do
-      expect{User.new('', 'user@gmail.com', 100)}.to raise_exception(InvalidNameException,'Length of username should be at least 1 character')
+      expect{User.new('', 'user@gmail.com', 100)}.to raise_exception(InvalidNameException,'Name should be at least 1 character long')
     end
     it 'should raise error is user created with invalid email address' do
       expect{User.new('manish', 'invalid_email', 100)}.to raise_exception(InvalidEmailException,'Please supply a valid email address with a @ character')
