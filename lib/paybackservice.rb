@@ -27,7 +27,6 @@ class PayBackService
   def users_at_credit_limit
     users_at_credit_limit_array = []
     @users.each do |user|
-      puts user.at_credit_limit?
       users_at_credit_limit_array << user if user.at_credit_limit?
     end
     users_at_credit_limit_array
