@@ -44,7 +44,7 @@ describe CommandParser do
       expect(@cmd_parser.parse(input)).to eql('rejected! (reason: credit limit)')
 
       input = 'report users-at-credit-limit'
-      expect(@cmd_parser.parse(input)).to eql('user1\n')
+      expect(@cmd_parser.parse(input)).to eql("user1\n")
 
       input = 'new txn user3 m3 200'
       expect(@cmd_parser.parse(input)).to eql('success!')
@@ -53,7 +53,7 @@ describe CommandParser do
       expect(@cmd_parser.parse(input)).to eql('success!')
 
       input = 'report users-at-credit-limit'
-      expect(@cmd_parser.parse(input)).to eql('user1\nuser3\n')
+      expect(@cmd_parser.parse(input)).to eql("user1\nuser3\n")
 
       input = 'report discount m3'
       expect(@cmd_parser.parse(input)).to eql(6.25)
