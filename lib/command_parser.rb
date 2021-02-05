@@ -5,17 +5,22 @@ class CommandParser
   end
 
   def parse(buf)
-    p "parsing command"
-    if buf.start_with?('new')
-      return parse_new_command(buf)
+    cmd_array = buf.split(" ")
+    p 'command array'
+    p cmd_array
+    if cmd_array[0] == 'new'
+      return parse_new_command(cmd_array)
     end
+    if cmd_array[0] == 'report'
+      return report(cmd_array)
+    end
+    if cmd_array[0] == 'payback'
+      return payback(cmd_array)
+    end
+    return 'Command not recognized'
   end
 
-  def parse_new_command(buf)
-    cmd_array = buf.split(" ")
-    p "parsed array"
-    p cmd_array
-    #We know the first element is already 'new'
+  def parse_new_command(cmd_array)
     if cmd_array[1] == 'user'
       user = User.new(cmd_array[2], cmd_array[3], cmd_array[4].to_i)
       @payback_service.onboard_user(user)
@@ -30,6 +35,8 @@ class CommandParser
     if cmd_array[1] == 'txn'
       return transact(cmd_array)
     end
+
+    return "Format of 'new' command invalid. Please check input"
   end
 
   private
@@ -48,6 +55,34 @@ class CommandParser
     else
       return 'rejected! (reason: credit limit)'
     end
+  end
+
+  def report(cmd_array)
+    if cmd_array[1] == 'users-at-credit-limit'
+      @payback_service.users_at_credit_limit.each do |user|
+        p user.name
+      end
+      return true
+    end
+    if cmd_array[1] == 'discount'
+      merchant = find_merchant_by_name(cmd_array[2])
+      return "merchant with name ''#{cmd_array[2]}'' not found" unless merchant
+      return merchant.total_discount_received
+    end
+    if cmd_array[1] == 'total-dues'
+      @payback_service.users.each do |user|
+        p "#{user.name}(dues: #{user.dues})" if user.dues > 0
+      end
+      return true
+    end
+    false
+  end
+
+  def payback(cmd_array)
+    user = find_user_by_name(cmd_array[1])
+    return "Could not find user with name '#{cmd_array[1]}'" unless user
+    user.payback(cmd_array[2].to_i)
+    return "#{user.name}(dues: #{user.dues})"
   end
 
   def find_user_by_name(username)

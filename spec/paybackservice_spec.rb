@@ -5,9 +5,9 @@ describe PayBackService do
     @user1 = User.new('user1', 'u1@users.com', 300)
     @user2 = User.new('user2', 'u2@users.com', 400)
     @user3 = User.new('user3', 'u3@users.com', 500)
-    @merchant1 = Merchant.new('m1', 'm1@merchants.com',1.5)
-    @merchant2 = Merchant.new('m1', 'm2@merchants.com',1.5)
-    @merchant3 = Merchant.new('m1', 'm3@merchants.com',1.5)
+    @merchant1 = Merchant.new('m1', 'm1@merchants.com',0.5)
+    @merchant2 = Merchant.new('m2', 'm2@merchants.com',1.5)
+    @merchant3 = Merchant.new('m3', 'm3@merchants.com',1.25)
   end
 
   context 'Onboarding' do
@@ -51,7 +51,7 @@ describe PayBackService do
       # > report users-at-credit-limit
       expect(@paybackservice.users_at_credit_limit).to eql([@user1, @user3])
       #> report discount m3
-      expect(@merchant3.total_discount_received).to eql(7.5)
+      expect(@merchant3.total_discount_received).to eql(6.25)
       # > payback user3 400
       @user3.payback(400)
       expect(@user3.dues).to eql(100)
