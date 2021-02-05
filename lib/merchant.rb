@@ -1,4 +1,4 @@
-require 'validator'
+require_relative 'validator'
 class Merchant
   attr_accessor :discount_percentage
   attr_reader :name, :email

@@ -1,7 +1,7 @@
-require 'exceptions/invalid_credit_limit_exception'
-require 'exceptions/invalid_name_exception'
-require 'exceptions/invalid_email_exception'
-require 'exceptions/invalid_discount_exception'
+require_relative 'exceptions/invalid_credit_limit_exception'
+require_relative 'exceptions/invalid_name_exception'
+require_relative 'exceptions/invalid_email_exception'
+require_relative 'exceptions/invalid_discount_exception'
 
 class Validator
   def self.validate_credit_limit(cred_limit)

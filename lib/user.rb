@@ -1,4 +1,4 @@
-require 'validator'
+require_relative 'validator'
 class User
   attr_reader :name, :email
   attr_accessor :credit_limit, :available_credit

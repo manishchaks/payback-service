@@ -1,3 +1,6 @@
+require_relative 'paybackservice'
+require_relative 'user'
+require_relative 'merchant'
 class CommandParser
 
   def initialize
@@ -6,8 +9,6 @@ class CommandParser
 
   def parse(buf)
     cmd_array = buf.split(" ")
-    p 'command array'
-    p cmd_array
     if cmd_array[0] == 'new'
       return parse_new_command(cmd_array)
     end
@@ -59,10 +60,11 @@ class CommandParser
 
   def report(cmd_array)
     if cmd_array[1] == 'users-at-credit-limit'
+      output_string = String.new
       @payback_service.users_at_credit_limit.each do |user|
-        p user.name
+        output_string += user.name + "\n"
       end
-      return true
+      return output_string
     end
     if cmd_array[1] == 'discount'
       merchant = find_merchant_by_name(cmd_array[2])
@@ -70,10 +72,16 @@ class CommandParser
       return merchant.total_discount_received
     end
     if cmd_array[1] == 'total-dues'
+      total_dues = 0
+      output_string = String.new
       @payback_service.users.each do |user|
-        p "#{user.name}(dues: #{user.dues})" if user.dues > 0
+        if user.dues > 0
+          output_string += "#{user.name}: #{user.dues}" + "\n"
+          total_dues += user.dues
+        end
       end
-      return true
+      output_string += "total: #{total_dues}"
+      return output_string
     end
     false
   end
